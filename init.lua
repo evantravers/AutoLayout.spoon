@@ -51,7 +51,7 @@ end
 function m:autoLayout()
   local space = nil
   if hs.settings.get('headspace') then
-    space = hs.fnutils.find(Config.spaces, function(s)
+    space = hs.fnutils.find(m.config.spaces, function(s)
       return s.text == hs.settings.get('headspace').text
     end)
   end
