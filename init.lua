@@ -3,17 +3,9 @@
 --- This is largely stolen from @megalithic's epic work. This lets application's
 --- windows automatically re-settle depending on whether I'm on a single laptop
 --- or a dock with an external (and now primary) monitor.
----
---- I prefer applications full screened (for the most part, so this is
---- simplified. I also don't roll with more than two monitors, but this should
---- scale theoretically.
----
---- When you start it, it starts the watcher. You can also trigger an autolayout
---- manually by calling module.autoLayout()
----
----
 
 local m = {}
+m.stack = {}
 
 m.num_of_screens = 0
 m.whichScreen = function(num)
@@ -26,19 +18,37 @@ m.whichScreen = function(num)
 end
 
 -- autoLayout() :: self
--- Evaluates module.config and obeys the layouts.
--- Includes any layouts in module.config.layout as overrides.
 function m:autoLayout()
-  print(hs.inspect(m.layouts))
-  hs.layout.apply(m.layouts, string.match)
+  hs.layout.apply(m.layouts(), string.match)
 
   return self
 end
 
-function m:setLayouts(layouts)
-  m.layouts = layouts
+function m:setDefault(layouts)
+  m.stack = {[1] = layouts}
 
   return self
+end
+
+function m:push(table)
+  m.stack[#m.stack + 1] = table
+
+  return self
+end
+
+function m:pop()
+  -- prevent from popping the "default"
+  if #m.stack > 1 then
+    table.remove(m.stack, #m.stack)
+  end
+
+  return self
+end
+
+function m.layouts()
+  -- TODO: figure out how to "flatten" the stack such that higher numbers get
+-- higher precedence... potentially are "later" on the table.
+  return m.stack[1]
 end
 
 -- initialize watchers
