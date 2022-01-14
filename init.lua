@@ -1,13 +1,18 @@
 --- === AUTOLAYOUT ===
 ---
---- This is largely stolen from @megalithic's epic work. This lets application's
---- windows automatically re-settle depending on whether I'm on a single laptop
---- or a dock with an external (and now primary) monitor.
+--- This is largely stolen from @megalithic's epic work. This lets
+--- application's - windows automatically re-settle depending on whether I'm on
+--- a single laptop - or a dock with an external (and now primary) monitor.
 
 local m = {}
 m.stack = {}
 
 m.num_of_screens = 0
+
+-- whichScreen(num) :: hs.screen
+-- Method
+-- Tries to find a screen at that number but falls back to your primaryScreen.
+-- TODO: Should this recursively try the previous number until primary?
 m.whichScreen = function(num)
   local displays = hs.screen.allScreens()
   if displays[num] ~= nil then
@@ -47,7 +52,7 @@ end
 
 function m.layouts()
   -- TODO: figure out how to "flatten" the stack such that higher numbers get
--- higher precedence... potentially are "later" on the table.
+  -- higher precedence... potentially are "later" on the table.
   return m.stack[1]
 end
 
