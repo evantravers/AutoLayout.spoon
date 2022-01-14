@@ -53,7 +53,11 @@ end
 function m.layouts()
   -- TODO: figure out how to "flatten" the stack such that higher numbers get
   -- higher precedence... potentially are "later" on the table.
-  return m.stack[1]
+  local layout = {}
+  hs.fnutils.each(m.stack, function(tbl)
+    return hs.fnutils.concat(layout, tbl)
+  end)
+  return layout
 end
 
 -- initialize watchers
