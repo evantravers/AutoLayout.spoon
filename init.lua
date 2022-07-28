@@ -30,13 +30,13 @@ function m:autoLayout()
 end
 
 function m:setDefault(layouts)
-  m.stack = {[1] = layouts}
+  m.stack = {layouts}
 
   return self
 end
 
-function m:push(table)
-  m.stack[#m.stack + 1] = table
+function m:push(t)
+  table.insert(m.stack, t)
 
   return self
 end
@@ -44,7 +44,7 @@ end
 function m:pop()
   -- prevent from popping the "default"
   if #m.stack > 1 then
-    table.remove(m.stack, #m.stack)
+    table.remove(m.stack)
   end
 
   return self
