@@ -7,7 +7,7 @@
 local m = {}
 m.stack = {}
 
-m.num_of_screens = 0
+m.numOfScreens = 0
 
 -- whichScreen(num) :: hs.screen
 -- Method
@@ -61,9 +61,9 @@ end
 -- initialize watchers
 function m:start()
   m.watcher = hs.screen.watcher.new(function()
-    if m.num_of_screens ~= #hs.screen.allScreens() then
+    if m.numOfScreens ~= #hs.screen.allScreens() then
       m:autoLayout()
-      m.num_of_screens = #hs.screen.allScreens()
+      m.numOfScreens = #hs.screen.allScreens()
     end
   end):start()
 end
