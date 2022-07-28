@@ -62,7 +62,7 @@ end
 function m:start()
   m.watcher = hs.screen.watcher.new(function()
     if m.num_of_screens ~= #hs.screen.allScreens() then
-      m.autoLayout()
+      m:autoLayout()
       m.num_of_screens = #hs.screen.allScreens()
     end
   end):start()
