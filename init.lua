@@ -53,8 +53,8 @@ end
 function m.layouts()
   -- TODO: figure out how to "flatten" the stack such that higher numbers get
   -- higher precedence... potentially are "later" on the table.
-  return hs.fnutils.reduce(m.stack, function(choice, option)
-    return hs.fnutils.concat(choice, option)
+  return hs.fnutils.reduce(m.stack, function(accr, el)
+    return hs.fnutils.concat(accr, el)
   end)
 end
 
