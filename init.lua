@@ -24,8 +24,23 @@ end
 
 -- autoLayout() :: self
 function m:autoLayout()
-  hs.layout.apply(m.layouts(), string.match)
+  -- Generate a table of running applications.
+  local runningApps = {}
+  for _, app in ipairs(hs.application.runningApplications()) do
+    runningApps[app:name()] = true
+  end
 
+  -- Filter layouts to exclude "Unknown" apps and include only those apps that are currently running
+  local filteredLayouts = {}
+  for _, layoutItem in ipairs(m.layouts()) do
+    local appName = layoutItem[1] and layoutItem[1]:name() or "Unknown"
+    if appName ~= "Unknown" and runningApps[appName] then
+      table.insert(filteredLayouts, layoutItem)
+    end
+  end
+
+  -- Apply the filtered layouts
+  hs.layout.apply(filteredLayouts, string.match)
   return self
 end
 
