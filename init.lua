@@ -31,13 +31,9 @@ function m:autoLayout()
   end
 
   -- Filter layouts to exclude "Unknown" apps and include only those apps that are currently running
-  local filteredLayouts = {}
-  for _, layoutItem in ipairs(m.layouts()) do
-    local appName = layoutItem[1] and layoutItem[1]:name() or "Unknown"
-    if appName ~= "Unknown" and runningApps[appName] then
-      table.insert(filteredLayouts, layoutItem)
-    end
-  end
+  local filteredLayouts = hs.fnutils.ifilter(m.layouts(), function(layoutItem)
+    return layoutItem[1] and layoutItem[1]:name() and runningApps[layoutItem[1]:name()]
+  end)
 
   -- Apply the filtered layouts
   hs.layout.apply(filteredLayouts, string.match)
